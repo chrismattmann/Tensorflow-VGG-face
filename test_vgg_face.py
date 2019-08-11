@@ -9,7 +9,7 @@ from skimage.transform import resize
 from scipy.misc import imresize
 import tensorflow as tf
 import numpy as np
-
+import sys
 
 # build the graph
 graph = tf.Graph()
@@ -20,8 +20,14 @@ with graph.as_default():
     k = 3
     values, indices = tf.nn.top_k(output['prob'], k)
 
+image_path = 'Aamir_Khan_March_2015.jpg'
+if sys.argv != None and len(sys.argv) > 1:
+    image_path = sys.argv[1]
+
+print('Detecting Face in Image %s '% (image_path))
+
 # read sample image
-img = imread('Aamir_Khan_March_2015.jpg', pilmode='RGB') #changed to remove deprecation, old call to was to scipy.misc.imread
+img = imread(image_path, pilmode='RGB') #changed to remove deprecation, old call to was to scipy.misc.imread
 img = img[0:250, :, :]
 img = resize(img, (224, 224)) #replaced to remove deprecation, old call was to imresize
 # next 2 are from https://stackoverflow.com/a/44265224
